@@ -3,12 +3,485 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Алекс Валлас</title>
-</head>
-<body style="font-family: Arial, sans-serif; margin: 40px;">
-  <h1>AI-агент Алекс Валлас</h1>
-  <p>Консультации по IT, маркетплейсам и бизнесу.</p>
+  <title>Алекс Валлас — AI-консультант по IT, автоматизации и бизнесу</title>
+  <meta name="description" content="AI-консультант Алекс Валлас: IT-решения, автоматизация, маркетплейсы, бизнес-анализ и сопровождение проектов. Главный способ связи — интеллектуальный чат на сайте." />
+  <style>
+    :root{
+      --bg:#08111f;
+      --bg2:#0d1830;
+      --panel:rgba(255,255,255,.06);
+      --panel-2:rgba(255,255,255,.04);
+      --line:rgba(255,255,255,.10);
+      --text:#eef3ff;
+      --muted:#a9b5d6;
+      --accent:#67e8f9;
+      --accent2:#60a5fa;
+      --glow:0 18px 50px rgba(0,0,0,.35);
+      --radius:22px;
+      --max:1180px;
+    }
 
-  <script async src="https://timeweb.cloud/api/v1/cloud-ai/agents/d7f07b33-99c7-4bd2-9453-339650cae24b/embed.js?collapsed=true"></script>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(96,165,250,.18), transparent 25%),
+        radial-gradient(circle at 85% 15%, rgba(103,232,249,.14), transparent 22%),
+        linear-gradient(180deg, #07101c 0%, #0b1428 45%, #08111f 100%);
+      line-height:1.55;
+    }
+
+    a{text-decoration:none;color:inherit}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .section{padding:88px 0}
+    .section-sm{padding:60px 0}
+
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 14px;border-radius:999px;
+      color:var(--accent);
+      background:rgba(103,232,249,.08);
+      border:1px solid rgba(103,232,249,.18);
+      font-size:14px
+    }
+
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(7,16,28,.72);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .nav{
+      min-height:74px;
+      display:flex;align-items:center;justify-content:space-between;gap:16px
+    }
+
+    .logo{
+      display:flex;align-items:center;gap:12px;font-weight:700
+    }
+
+    .logo-mark{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      color:#07101c;font-weight:900;
+      box-shadow:0 10px 30px rgba(96,165,250,.25)
+    }
+
+    .nav-links{
+      display:flex;gap:18px;flex-wrap:wrap;
+      color:var(--muted);font-size:14px
+    }
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:10px;padding:14px 20px;border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);font-weight:600;transition:.2s ease
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+
+    .hero{
+      padding:72px 0 30px;
+      position:relative;overflow:hidden
+    }
+
+    .hero-inner{
+      text-align:center;
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    .hero h1{
+      margin:18px 0 16px;
+      font-size:clamp(34px,5vw,66px);
+      line-height:1.02;
+      letter-spacing:-1.4px;
+      font-weight:800;
+    }
+
+    .gradient{
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .lead{
+      max-width:860px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:18px;
+    }
+
+    .hero-actions{
+      display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
+      margin-top:26px
+    }
+
+    .chat-wrap{
+      max-width:920px;
+      margin:34px auto 0;
+    }
+
+    .chat-shell{
+      position:relative;
+      border-radius:28px;
+      padding:20px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      box-shadow:var(--glow);
+      overflow:hidden;
+    }
+
+    .chat-shell::before{
+      content:"";
+      position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+      background:linear-gradient(135deg, rgba(96,165,250,.45), rgba(103,232,249,.26), rgba(255,255,255,.08));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;
+              mask-composite:exclude;
+      pointer-events:none;
+    }
+
+    .chat-head{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:14px;flex-wrap:wrap;
+      margin-bottom:16px;
+      padding:8px 6px 4px;
+    }
+
+    .chat-title{
+      font-size:20px;font-weight:700
+    }
+
+    .chat-note{
+      color:var(--muted);font-size:14px
+    }
+
+    .chat-center{
+      min-height:560px;
+      border-radius:22px;
+      background:rgba(8,17,31,.55);
+      border:1px solid rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+
+    .chat-tip{
+      margin-top:14px;
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:center
+    }
+
+    .tip{
+      padding:10px 14px;border-radius:999px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      color:var(--muted);font-size:14px
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:var(--glow);
+    }
+
+    .stat{
+      padding:18px;
+      text-align:center;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:24px;
+      margin-bottom:4px;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .title{
+      margin:0 0 14px;
+      font-size:clamp(28px,3.5vw,44px);
+      font-weight:800;
+      letter-spacing:-.8px
+    }
+
+    .subtitle{
+      color:var(--muted);
+      max-width:760px;
+      margin:0 auto 28px;
+      text-align:center;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .feature{
+      padding:24px;
+    }
+
+    .feature h3{
+      margin:14px 0 10px;
+      font-size:22px;
+    }
+
+    .feature p{
+      color:var(--muted);
+      margin:0 0 14px;
+    }
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .list li+li{margin-top:6px}
+
+    .pricing{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .price-card{
+      padding:24px;
+    }
+
+    .price{
+      font-size:34px;
+      font-weight:800;
+      margin:10px 0 4px;
+    }
+
+    .muted{color:var(--muted)}
+
+    .center{text-align:center}
+
+    footer{
+      padding:30px 0 46px;
+      color:var(--muted);
+      font-size:14px;
+      text-align:center;
+    }
+
+    @media (max-width: 980px){
+      .nav-links{display:none}
+      .stats,.grid-3,.pricing{grid-template-columns:1fr}
+      .hero{padding-top:46px}
+      .section{padding:70px 0}
+      .chat-center{min-height:520px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#top" class="logo">
+        <div class="logo-mark">AV</div>
+        <div>
+          <div>Алекс Валлас</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:500;">AI-консультант для бизнеса</div>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#chat">AI-чат</a>
+        <a href="#features">Возможности</a>
+        <a href="#pricing">Тарифы</a>
+      </nav>
+
+      <a class="btn" href="#chat">Открыть AI-чат</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <span class="badge">Главный инструмент — интеллектуальный чат</span>
+          <h1>
+            Получайте решения через <span class="gradient">AI-чат</span><br />
+            по IT, автоматизации, маркетплейсам и бизнес-задачам
+          </h1>
+          <p class="lead">
+            На сайте основная точка входа — это умный консультант. Он помогает быстро разбирать задачи,
+            подбирать решения, считать экономику, подготавливать структуру действий и направлять в нужный формат работы.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" href="#chat">Перейти к чату</a>
+            <a class="btn" href="#pricing">Смотреть тарифы</a>
+          </div>
+        </div>
+
+        <div id="chat" class="chat-wrap">
+          <div class="chat-shell">
+            <div class="chat-head">
+              <div>
+                <div class="chat-title">Центральный AI-чат проекта</div>
+                <div class="chat-note">Задайте вопрос прямо здесь: консультация, расчёт, автоматизация, сопровождение</div>
+              </div>
+              <span class="badge">Доступ 24/7</span>
+            </div>
+
+            <div class="chat-center" id="ai-chat-anchor">
+              <div style="text-align:center;color:var(--muted);">
+                <div style="font-size:16px;margin-bottom:8px;">Здесь размещён основной виджет AI-консультанта</div>
+                <div style="font-size:14px;">Если виджет свёрнут, откройте окно чата и начните диалог</div>
+              </div>
+            </div>
+
+            <div class="chat-tip">
+              <div class="tip">Пример: «Нужен бизнес-план для запуска товара на Ozon»</div>
+              <div class="tip">Пример: «Помоги встроить AI-бота на сайт»</div>
+              <div class="tip">Пример: «Рассчитай маржу и риски поставки»</div>
+            </div>
+
+            <div class="stats">
+              <div class="stat card">
+                <strong>1 вопрос</strong>
+                <span>тестово бесплатно</span>
+              </div>
+              <div class="stat card">
+                <strong>24 часа</strong>
+                <span>срок ответа на вопрос</span>
+              </div>
+              <div class="stat card">
+                <strong>500+</strong>
+                <span>проектов и задач</span>
+              </div>
+              <div class="stat card">
+                <strong>24/7</strong>
+                <span>доступность AI-чата</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="title center">Что умеет AI-консультант</h2>
+        <p class="subtitle">
+          Сайт построен вокруг диалога. Клиент приходит, задаёт вопрос в чат и получает понятный маршрут решения.
+        </p>
+
+        <div class="grid-3">
+          <div class="feature card">
+            <span class="badge">IT и автоматизация</span>
+            <h3>Технические решения</h3>
+            <p>Настройка сайтов, AI-ботов, интеграций, бизнес-процессов и цифровых сервисов.</p>
+            <ul class="list">
+              <li>Подключение AI-агентов</li>
+              <li>Интеграция сервисов</li>
+              <li>Техническая поддержка</li>
+            </ul>
+          </div>
+
+          <div class="feature card">
+            <span class="badge">Торговля и аналитика</span>
+            <h3>Маркетплейсы и расчёты</h3>
+            <p>Подбор товара, оценка спроса, расчёт маржи, unit-экономики и базовых торговых рисков.</p>
+            <ul class="list">
+              <li>Ozon и поставщики</li>
+              <li>Аудит карточек товара</li>
+              <li>Расчёт прибыли</li>
+            </ul>
+          </div>
+
+          <div class="feature card">
+            <span class="badge">Бизнес-сопровождение</span>
+            <h3>Планы и стратегия</h3>
+            <p>От быстрых консультаций до разработки бизнес-плана и сопровождения проекта по подписке.</p>
+            <ul class="list">
+              <li>Экспресс-анализ ниши</li>
+              <li>Бизнес-план</li>
+              <li>Поддержка проекта</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section-sm">
+      <div class="container">
+        <h2 class="title center">Форматы работы и стоимость</h2>
+        <p class="subtitle">
+          AI-чат помогает быстро войти в диалог, а дальше задача переводится в подходящий формат консультации или сопровождения.
+        </p>
+
+        <div class="pricing">
+          <div class="price-card card">
+            <span class="badge">Вопросы</span>
+            <div class="price">от 1 000 ₽</div>
+            <p class="muted">Для точечных консультаций и разбора конкретной ситуации.</p>
+            <ul class="list">
+              <li>Первый вопрос — бесплатно</li>
+              <li>Простые — 1 000 ₽</li>
+              <li>Средние — 2 000–3 000 ₽</li>
+              <li>Сложные — от 5 000 ₽</li>
+            </ul>
+          </div>
+
+          <div class="price-card card">
+            <span class="badge">Аналитика</span>
+            <div class="price">2 000–20 000 ₽</div>
+            <p class="muted">Для расчётов, оценки товара, ниши, плана и экономики проекта.</p>
+            <ul class="list">
+              <li>Юнит-экономика — 2 000 ₽</li>
+              <li>Аудит карточки — 3 000 ₽</li>
+              <li>Бизнес-план — от 7 000 ₽</li>
+              <li>Премиум-план — до 20 000 ₽</li>
+            </ul>
+          </div>
+
+          <div class="price-card card">
+            <span class="badge">Сопровождение</span>
+            <div class="price">от 10 000 ₽/мес</div>
+            <p class="muted">Для долгосрочных задач, внедрения и регулярной экспертной поддержки.</p>
+            <ul class="list">
+              <li>Базовая поддержка — от 10 000 ₽/мес</li>
+              <li>Проектная работа — от 50 000 ₽</li>
+              <li>Подписка и аудит</li>
+              <li>Приоритетная поддержка</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Алекс Валлас • AI-консультант по IT, автоматизации и бизнесу
+  </footer>
+
+  <script async src="https://timeweb.cloud/api/v1/cloud-ai/agents/d7f07b33-99c7-4bd2-9453-339650cae24b/embed.js?collapsed=false"></script>
 </body>
 </html>
