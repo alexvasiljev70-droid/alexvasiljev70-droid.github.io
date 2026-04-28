@@ -1,496 +1,809 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Алекс Валлас — AI-консультант для бизнеса</title>
-  <meta name="description" content="AI-консультант по IT, автоматизации, маркетплейсам, расчёту маржи и бизнес-задачам." />
+  <meta name="description" content="AI-консультант по IT, автоматизации, маркетплейсам и бизнес-задачам. Первый вопрос тестово бесплатно. Основной формат общения — через Telegram-бота." />
   <style>
-    :root{
-      --bg:#0b1020;
-      --bg2:#0f1730;
-      --card:#121933;
-      --card2:#172042;
-      --text:#eaf0ff;
-      --muted:#aab6d3;
-      --accent:#6ea8ff;
-      --accent2:#8ef0c8;
-      --accent3:#9d8cff;
-      --line:rgba(255,255,255,.08);
-      --shadow:0 20px 60px rgba(0,0,0,.28);
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121933;
+      --card: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text: #f5f7ff;
+      --muted: #b8c0e0;
+      --accent: #7c9cff;
+      --accent-2: #4fd1c5;
+      --telegram: #229ED9;
+      --telegram-dark: #1b84b3;
+      --warning: #ffd166;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      --radius: 18px;
+      --max: 1180px;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Arial,sans-serif;
-      color:var(--text);
-      line-height:1.5;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
       background:
-        radial-gradient(900px 500px at 10% -10%, rgba(110,168,255,.18), transparent 60%),
-        radial-gradient(700px 400px at 100% 0%, rgba(142,240,200,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
+        radial-gradient(circle at top left, rgba(124, 156, 255, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(79, 209, 197, 0.12), transparent 25%),
+        linear-gradient(180deg, #0b1020 0%, #10162d 100%);
+      color: var(--text);
+      line-height: 1.55;
     }
-    a{color:inherit}
-    .wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:24px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding:8px 0 18px;
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(11, 16, 32, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .logo{
-      width:46px;
-      height:46px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      color:#09111f;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 10px 30px rgba(110,168,255,.25);
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
     }
-    .brand h1{
-      margin:0;
-      font-size:18px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
     }
-    .brand p{
-      margin:2px 0 0;
-      font-size:13px;
-      color:var(--muted);
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
     }
-    .top-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px 16px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:700;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
+
+    .brand-text {
+      min-width: 0;
     }
-    .top-btn:hover{background:rgba(255,255,255,.06)}
-    .hero{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      align-items:center;
-      padding:28px 0 34px;
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      white-space: nowrap;
     }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: #fff;
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--telegram), var(--telegram-dark));
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(34, 158, 217, 0.25);
+      transition: 0.2s ease;
+    }
+
+    .header-cta:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
     .hero-card,
-    .panel,
-    .section-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(10px);
+    .side-card,
+    .feature-card,
+    .pricing-card,
+    .chat-card,
+    .cta-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
-    .hero-card{
-      padding:42px 34px;
+
+    .hero-card {
+      padding: 34px;
     }
-    .badge{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:13px;
-      margin-bottom:16px;
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(124, 156, 255, 0.14);
+      color: #dce6ff;
+      font-size: 13px;
+      margin-bottom: 20px;
     }
-    h2{
-      margin:0 0 14px;
-      font-size:clamp(34px,5vw,58px);
-      line-height:1.03;
-      letter-spacing:-0.02em;
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
-    .lead{
-      max-width:680px;
-      margin:0 0 24px;
-      color:var(--muted);
-      font-size:18px;
+
+    .hero-text {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 26px;
     }
-    .cta{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:18px;
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
     }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      min-width:220px;
-      padding:15px 22px;
-      border-radius:16px;
-      text-decoration:none;
-      font-weight:700;
-      transition:.2s ease;
-      border:1px solid transparent;
+
+    .button-primary,
+    .button-secondary,
+    .button-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: 0.2s ease;
+      border: none;
+      cursor: pointer;
     }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--accent),var(--accent3));
-      color:#fff;
-      box-shadow:0 12px 32px rgba(110,168,255,.28);
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--telegram), var(--telegram-dark));
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(34, 158, 217, 0.28);
     }
-    .btn-primary:hover{
-      transform:translateY(-1px);
-      filter:brightness(1.05);
+
+    .button-primary:hover {
+      transform: translateY(-2px);
     }
-    .btn-secondary{
-      color:var(--text);
-      border-color:var(--line);
-      background:rgba(255,255,255,.03);
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    .btn-secondary:hover{
-      background:rgba(255,255,255,.06);
+
+    .button-secondary:hover {
+      background: rgba(255,255,255,0.12);
     }
-    .hero-points{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:24px;
+
+    .button-ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
     }
-    .point{
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      font-size:14px;
-      color:var(--muted);
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
-    .panel{
-      padding:24px;
+
+    .stat {
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
     }
-    .panel h3{
-      margin:0 0 14px;
-      font-size:22px;
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 6px;
     }
-    .mini-list{
-      display:grid;
-      gap:12px;
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
     }
-    .mini-item{
-      padding:14px 16px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:18px;
+
+    .side-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
     }
-    .mini-item strong{
-      display:block;
-      margin-bottom:4px;
-      font-size:15px;
+
+    .side-badge {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(79, 209, 197, 0.14);
+      color: #d7fffb;
+      font-size: 13px;
+      width: fit-content;
     }
-    .mini-item span{
-      color:var(--muted);
-      font-size:14px;
+
+    .side-card h2 {
+      margin: 8px 0 12px;
+      font-size: 28px;
+      line-height: 1.15;
     }
-    .sections{
-      display:grid;
-      gap:22px;
-      margin:18px 0 10px;
+
+    .side-card p {
+      color: var(--muted);
+      margin: 0 0 10px;
     }
-    .section-card{
-      padding:28px;
+
+    .example-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
     }
-    .section-title{
-      margin:0 0 16px;
-      font-size:28px;
+
+    .example-item {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e8edff;
+      font-size: 14px;
     }
-    .grid-3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
+
+    section {
+      padding: 34px 0;
     }
-    .grid-4{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
+
+    .section-head {
+      margin-bottom: 24px;
+      max-width: 780px;
     }
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:20px;
+
+    .section-kicker {
+      color: var(--accent-2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+      font-weight: 700;
     }
-    .card h4{
-      margin:0 0 8px;
-      font-size:18px;
+
+    .section-head h2 {
+      font-size: clamp(28px, 3.6vw, 42px);
+      margin: 0 0 10px;
     }
-    .card p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
     }
-    .steps{
-      counter-reset:step;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
+
+    .chat-card {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
     }
-    .step{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:20px;
-      position:relative;
+
+    .chat-card h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
     }
-    .step::before{
-      counter-increment:step;
-      content:counter(step);
-      display:inline-grid;
-      place-items:center;
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      margin-bottom:10px;
-      color:#09111f;
-      font-weight:800;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
+
+    .chat-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 720px;
     }
-    .step h4{
-      margin:0 0 8px;
-      font-size:17px;
+
+    .chat-note {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--warning);
+      font-size: 14px;
+      font-weight: 600;
     }
-    .step p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 8px;
     }
-    .price-box{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
+
+    .feature-card {
+      padding: 24px;
     }
-    .price{
-      background:linear-gradient(180deg, rgba(110,168,255,.08), rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(124, 156, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
     }
-    .price h4{
-      margin:0 0 10px;
-      font-size:20px;
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
     }
-    .price .sum{
-      font-size:28px;
-      font-weight:800;
-      margin-bottom:8px;
+
+    .feature-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
     }
-    .price p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
+
+    .feature-list {
+      display: grid;
+      gap: 8px;
+      color: #e8edff;
+      font-size: 14px;
     }
-    .final-cta{
-      text-align:center;
-      padding:34px 24px;
+
+    .feature-list span::before {
+      content: "• ";
+      color: var(--accent-2);
     }
-    .final-cta p{
-      max-width:760px;
-      margin:0 auto 22px;
-      color:var(--muted);
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 8px;
     }
-    footer{
-      padding:20px 0 34px;
-      color:var(--muted);
-      text-align:center;
-      font-size:13px;
+
+    .pricing-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    @media (max-width: 980px){
-      .hero{
-        grid-template-columns:1fr;
+
+    .pricing-tag {
+      color: var(--accent-2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .pricing-card h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .price {
+      font-size: 34px;
+      font-weight: 900;
+      margin: 4px 0;
+    }
+
+    .pricing-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .pricing-list {
+      margin-top: 4px;
+      display: grid;
+      gap: 8px;
+      color: #e8edff;
+      font-size: 14px;
+    }
+
+    .pricing-list span::before {
+      content: "✓ ";
+      color: var(--accent-2);
+    }
+
+    .cta-card {
+      padding: 34px;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .cta-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 42px);
+    }
+
+    .cta-card p {
+      margin: 0 auto 22px;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 17px;
+    }
+
+    .footer {
+      padding: 26px 0 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer a {
+      color: #dce6ff;
+    }
+
+    .mobile-stack {
+      display: contents;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .features-grid,
+      .pricing-grid,
+      .chat-card {
+        grid-template-columns: 1fr;
       }
-      .hero-points,
-      .grid-3,
-      .grid-4,
-      .steps,
-      .price-box{
-        grid-template-columns:1fr;
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 36px;
+      }
+
+      .hero-card,
+      .side-card,
+      .feature-card,
+      .pricing-card,
+      .chat-card,
+      .cta-card {
+        padding: 22px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .header-inner {
+        gap: 12px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .header-cta {
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+
+      .button-primary,
+      .button-secondary,
+      .button-ghost {
+        width: 100%;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .price {
+        font-size: 30px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <a class="brand" href="#">
-        <div class="logo">AV</div>
-        <div>
-          <h1>Алекс Валлас</h1>
-          <p>AI-консультант для бизнеса</p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top">
+        <div class="brand-mark">AV</div>
+        <div class="brand-text">
+          <div class="brand-title">Алекс Валлас</div>
+          <div class="brand-subtitle">AI-консультант для бизнеса</div>
         </div>
       </a>
-      <a class="top-btn" href="https://t.me/AlexVallasbot" target="_blank" rel="noopener noreferrer">
-        Открыть Telegram-бот
-      </a>
-    </header>
 
-    <main>
-      <section class="hero">
+      <nav class="nav">
+        <a href="#chat">AI-чат</a>
+        <a href="#features">Возможности</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer" class="header-cta">Открыть Telegram-бот</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
         <div class="hero-card">
-          <div class="badge">Консультации через Telegram-бот</div>
-          <h2>AI-консультант по IT, маркетплейсам и бизнес-задачам</h2>
-          <p class="lead">
-            Получайте быстрые ответы, расчёты и рекомендации по автоматизации,
-            настройке сервисов, торговле на маркетплейсах, unit-экономике,
-            бизнес-планам и сопровождению проектов.
+          <div class="eyebrow">Главный инструмент — интеллектуальный Telegram-чат</div>
+          <h1>Получайте решения через Telegram-бота по IT, автоматизации, маркетплейсам и бизнес-задачам</h1>
+          <p class="hero-text">
+            На сайте основная точка входа — переход в умный Telegram-консультант. Он помогает быстро разбирать задачи, подбирать решения, считать экономику, готовить структуру действий и переводить задачу в удобный формат работы.
           </p>
 
-          <div class="cta">
-            <a class="btn btn-primary" href="https://t.me/AlexVallasbot" target="_blank" rel="noopener noreferrer">
-              Открыть чат в Telegram
-            </a>
-            <a class="btn btn-secondary" href="#services">
-              Узнать услуги
-            </a>
+          <div class="hero-actions">
+            <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer" class="button-primary">Открыть Telegram-бот</a>
+            <a href="#chat" class="button-secondary">Как это работает</a>
+            <a href="#pricing" class="button-ghost">Смотреть тарифы</a>
           </div>
 
-          <div class="hero-points">
-            <div class="point">Первый тестовый вопрос — бесплатно</div>
-            <div class="point">Ответ по запросу — в течение 24 часов</div>
-            <div class="point">Работаем с частными лицами и бизнесом</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-value">1 вопрос</div>
+              <div class="stat-label">тестово бесплатно</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">24 часа</div>
+              <div class="stat-label">срок ответа на вопрос</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">500+</div>
+              <div class="stat-label">проектов и задач</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">24/7</div>
+              <div class="stat-label">доступность AI-чата</div>
+            </div>
           </div>
         </div>
 
-        <aside class="panel">
-          <h3>Что умеет бот</h3>
-          <div class="mini-list">
-            <div class="mini-item">
-              <strong>IT и автоматизация</strong>
-              <span>Настройка ботов, сайтов, интеграций и рабочих процессов.</span>
-            </div>
-            <div class="mini-item">
-              <strong>Маркетплейсы</strong>
-              <span>Ozon, Alibaba, выбор товара, маржа, риски и unit-экономика.</span>
-            </div>
-            <div class="mini-item">
-              <strong>Бизнес-аналитика</strong>
-              <span>Оценка идеи, ROI, план запуска и сопровождение проекта.</span>
-            </div>
-            <div class="mini-item">
-              <strong>Поддержка</strong>
-              <span>Разбор задачи, поиск решения и передача специалисту при необходимости.</span>
-            </div>
+        <aside class="side-card">
+          <div>
+            <div class="side-badge">Основной канал связи — Telegram</div>
+            <h2>Задайте вопрос и сразу перейдите к диалогу</h2>
+            <p>
+              Бот помогает с первичной консультацией, расчётами, разбором ситуации и выбором следующего шага.
+            </p>
+            <p>
+              Если задача требует глубокой проработки, она переводится в платную консультацию или сопровождение.
+            </p>
           </div>
+
+          <div class="example-list">
+            <div class="example-item">Пример: «Нужен бизнес-план для запуска товара на Ozon»</div>
+            <div class="example-item">Пример: «Помоги встроить AI-бота на сайт»</div>
+            <div class="example-item">Пример: «Рассчитай маржу и риски поставки»</div>
+          </div>
+
+          <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer" class="button-primary">Перейти в Telegram</a>
         </aside>
-      </section>
-
-      <div class="sections">
-        <section class="section-card">
-          <h3 class="section-title">Как это работает</h3>
-          <div class="steps">
-            <div class="step">
-              <h4>Открываете бота</h4>
-              <p>Переходите в Telegram и запускаете диалог с AI-консультантом.</p>
-            </div>
-            <div class="step">
-              <h4>Выбираете формат</h4>
-              <p>Консультация, расчёт, аудит, бизнес-план или сопровождение.</p>
-            </div>
-            <div class="step">
-              <h4>Получаете решение</h4>
-              <p>Чёткий ответ, пошаговые действия и рекомендации по вашей задаче.</p>
-            </div>
-            <div class="step">
-              <h4>Двигаетесь дальше</h4>
-              <p>При необходимости подключаем специалиста и продолжаем сопровождение.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card" id="services">
-          <h3 class="section-title">Основные направления</h3>
-          <div class="grid-3">
-            <div class="card">
-              <h4>Настройка IT-решений</h4>
-              <p>Сайты, Telegram-боты, AI-агенты, интеграции сервисов, автоматизация процессов.</p>
-            </div>
-            <div class="card">
-              <h4>Торговля и маркетплейсы</h4>
-              <p>Выбор товара, анализ ниши, расчёт маржи, рисков, пошлин и unit-экономики.</p>
-            </div>
-            <div class="card">
-              <h4>Бизнес-консалтинг</h4>
-              <p>Оценка идей, бизнес-планы, стратегия запуска, поиск партнёров и сопровождение.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h3 class="section-title">Популярные услуги</h3>
-          <div class="grid-4">
-            <div class="card">
-              <h4>Экспресс-аудит карточки</h4>
-              <p>Анализ карточки товара на маркетплейсе — от 3 000 ₽.</p>
-            </div>
-            <div class="card">
-              <h4>Расчёт юнит-экономики</h4>
-              <p>Быстрый расчёт прибыли, расходов и рентабельности — от 2 000 ₽.</p>
-            </div>
-            <div class="card">
-              <h4>Консультация по задаче</h4>
-              <p>Простые, средние и сложные запросы — от 1 000 ₽.</p>
-            </div>
-            <div class="card">
-              <h4>Бизнес-план</h4>
-              <p>Подготовка плана с расчётами и анализом рынка — от 7 000 ₽.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h3 class="section-title">Пакеты</h3>
-          <div class="price-box">
-            <div class="price">
-              <h4>Старт</h4>
-              <div class="sum">5 000 ₽</div>
-              <p>3 консультации + экспресс-анализ ниши для быстрого старта.</p>
-            </div>
-            <div class="price">
-              <h4>Развитие</h4>
-              <div class="sum">25 000 ₽/мес.</div>
-              <p>Бизнес-план + 5 консультаций в месяц для роста проекта.</p>
-            </div>
-            <div class="price">
-              <h4>Премиум</h4>
-              <div class="sum">Индивидуально</div>
-              <p>Полное сопровождение, аудит, стратегия и приоритетная поддержка.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card final-cta">
-          <h3 class="section-title">Готовы начать?</h3>
-          <p>
-            Нажмите кнопку ниже и перейдите в Telegram-бот.
-            Там вы сможете выбрать вид консультации, задать вопрос и получить дальнейшие инструкции.
-          </p>
-          <div class="cta" style="justify-content:center;">
-            <a class="btn btn-primary" href="https://t.me/AlexVallasbot" target="_blank" rel="noopener noreferrer">
-              Перейти в Telegram-бот
-            </a>
-          </div>
-        </section>
       </div>
-    </main>
+    </section>
 
-    <footer>
-      © 2026 Алекс Валлас • Консультации по IT, автоматизации, маркетплейсам и бизнесу
-    </footer>
-  </div>
+    <section id="chat">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Центральный AI-чат проекта</div>
+          <h2>Основной формат общения — через Telegram-бота</h2>
+          <p>
+            Задайте вопрос по IT, автоматизации, маркетплейсам, расчётам или сопровождению проекта. Первый вопрос — тестово бесплатно. Дальше задача переводится в подходящий платный формат консультации или сопровождения.
+          </p>
+        </div>
+
+        <div class="chat-card">
+          <div>
+            <h3>Откройте Telegram и начните диалог с Алексом Валласом</h3>
+            <p>
+              На сайте нет встроенного виджета чата — рабочая точка входа находится в Telegram. Это основной канал, через который обрабатываются запросы, консультации и сопровождение.
+            </p>
+            <span class="chat-note">Ссылка откроется в Telegram: @AlexVallasBot</span>
+          </div>
+
+          <div>
+            <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer" class="button-primary">Открыть чат в Telegram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Что умеет AI-консультант</div>
+          <h2>Сайт построен вокруг одного действия: перейти в диалог и получить маршрут решения</h2>
+          <p>
+            Клиент приходит на сайт, открывает Telegram-бота, задаёт вопрос и получает понятную первичную навигацию по задаче.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <h3>IT и автоматизация</h3>
+            <p>
+              Технические решения для бизнеса: настройка сайтов, AI-ботов, интеграций, процессов и цифровых сервисов.
+            </p>
+            <div class="feature-list">
+              <span>Подключение AI-агентов</span>
+              <span>Интеграция сервисов</span>
+              <span>Техническая поддержка</span>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Маркетплейсы и расчёты</h3>
+            <p>
+              Подбор товара, оценка спроса, расчёт маржи, unit-экономики и базовых торговых рисков.
+            </p>
+            <div class="feature-list">
+              <span>Ozon и поставщики</span>
+              <span>Аудит карточек товара</span>
+              <span>Расчёт прибыли</span>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3>Планы и стратегия</h3>
+            <p>
+              От быстрых консультаций до разработки бизнес-плана и сопровождения проекта по подписке.
+            </p>
+            <div class="feature-list">
+              <span>Экспресс-анализ ниши</span>
+              <span>Бизнес-план</span>
+              <span>Поддержка проекта</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Форматы работы и стоимость</div>
+          <h2>AI-чат помогает быстро войти в диалог, а дальше задача переводится в подходящий формат</h2>
+          <p>
+            Подходящий формат зависит от сложности вопроса: от точечной консультации до расчётов, бизнес-плана и долгосрочного сопровождения.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <div class="pricing-tag">Вопросы</div>
+            <h3>Точечные консультации</h3>
+            <div class="price">от 1 000 ₽</div>
+            <p>Для разбора конкретной ситуации и прикладного ответа по задаче.</p>
+            <div class="pricing-list">
+              <span>Первый вопрос — бесплатно</span>
+              <span>Простые — 1 000 ₽</span>
+              <span>Средние — 2 000–3 000 ₽</span>
+              <span>Сложные — от 5 000 ₽</span>
+            </div>
+          </article>
+
+          <article class="pricing-card">
+            <div class="pricing-tag">Аналитика</div>
+            <h3>Расчёты и планирование</h3>
+            <div class="price">2 000–20 000 ₽</div>
+            <p>Для оценки товара, ниши, unit-экономики, бизнес-плана и финансовой модели.</p>
+            <div class="pricing-list">
+              <span>Юнит-экономика — 2 000 ₽</span>
+              <span>Аудит карточки — 3 000 ₽</span>
+              <span>Бизнес-план — от 7 000 ₽</span>
+              <span>Премиум-план — до 20 000 ₽</span>
+            </div>
+          </article>
+
+          <article class="pricing-card">
+            <div class="pricing-tag">Сопровождение</div>
+            <h3>Поддержка проекта</h3>
+            <div class="price">от 10 000 ₽/мес</div>
+            <p>Для долгосрочных задач, внедрения, консультаций и регулярной экспертной поддержки.</p>
+            <div class="pricing-list">
+              <span>Базовая поддержка — от 10 000 ₽/мес</span>
+              <span>Проектная работа — от 50 000 ₽</span>
+              <span>Подписка и аудит</span>
+              <span>Приоритетная поддержка</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta-card">
+          <h2>Готовы задать вопрос?</h2>
+          <p>
+            Перейдите в Telegram-бот и начните диалог с Алексом Валласом. Это основной вход в консультации, расчёты, техническую поддержку и сопровождение проекта.
+          </p>
+          <div class="hero-actions" style="justify-content:center; margin-bottom:0;">
+            <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer" class="button-primary">Написать в Telegram</a>
+            <a href="#pricing" class="button-secondary">Посмотреть тарифы</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Алекс Валлас • AI-консультант по IT, автоматизации и бизнесу</div>
+      <div>
+        Telegram: <a href="https://t.me/AlexVallasBot" target="_blank" rel="noopener noreferrer">@AlexVallasBot</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
